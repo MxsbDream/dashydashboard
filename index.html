@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard Grid (Windows Phone style) - Édition & Import d'icônes</title>
+
+  <!-- Tailwind CDN (Play CDN) - pour prototype / demo -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Pour forcer des tuiles carrées */
+    .tile {
+      aspect-ratio: 1 / 1;
+    }
+    /* animation courte pour ajout */
+    .tile-enter {
+      transform: scale(.9);
+      opacity: 0;
+    }
+    .tile-enter-active {
+      transform: scale(1);
+      opacity: 1;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+  <div class="max-w-5xl mx-auto p-6">
+    <header class="mb-6">
+      <h1 class="text-2xl font-semibold text-gray-800">Mon Dashboard</h1>
+      <p class="text-sm text-gray-600">Ajoute, édite et importe des icônes pour tes raccourcis.</p>
+    </header>
+
+    <!-- Grid -->
+    <main>
+      <div id="grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <!-- Tuiles insérées dynamiquement -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Bouton + flottant -->
+  <button id="openAdd" aria-label="Ajouter un raccourci"
+    class="fixed right-6 bottom-6 bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-xl shadow-lg flex items-center justify-center text-3xl focus:outline-none">
+    +
+  </button>
+
+  <!-- Modal (ajout / édition) -->
+  <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black/40 z-50">
+    <div class="bg-white rounded-lg w-full max-w-md p-5 mx-4">
+      <h2 id="modalTitle" class="text-lg font-medium mb-3">Ajouter un raccourci</h2>
+
+      <form id="addForm" class="space-y-3">
+        <div>
+          <label class="block text-sm text-gray-700">Icône (emoji, URL d'image ou fichier)</label>
+          <input id="iconInput" type="text" placeholder="Ex: 🔔 ou https://icon-..." 
+                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2" />
+          <p class="text-xs text-gray-400 mt-1">Tu peux utiliser un emoji, une URL d'image (png/jpg/svg/webp) ou importer un fichier image.</p>
+
+          <div class="mt-2 flex gap-2 items-center">
+            <label for="fileInput" class="cursor-pointer inline-flex items-center gap-2 px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 text-sm">
+              Importer une image
+              <input id="fileInput" type="file" accept="image/*" class="hidden" />
+            </label>
+            <span id="fileName" class="text-xs text-gray-500"></span>
+            <button id="clearImported" type="button" class="ml-auto text-xs text-red-500 hidden">Supprimer import</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm text-gray-700">Texte d'affichage</label>
+          <input id="labelInput" type="text" placeholder="Nom du raccourci" required
+                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2" />
+        </div>
+
+        <div>
+          <label class="block text-sm text-gray-700">Lien</label>
+          <input id="urlInput" type="url" placeholder="https://exemple.com" required
+                 class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2" />
+        </div>
+
+        <div class="flex justify-between items-center gap-2 pt-2">
+          <div class="text-xs text-gray-500">Quand tu importes, l'image est encodée en base64 dans localStorage.</div>
+          <div class="flex justify-end gap-2">
+            <button type="button" id="deleteBtn" class="px-3 py-2 rounded bg-red-50 text-red-600 hover:bg-red-100 hidden">Supprimer</button>
+            <button type="button" id="cancelBtn" class="px-3 py-2 rounded bg-gray-100 hover:bg-gray-200">Annuler</button>
+            <button type="submit" id="saveBtn" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+            </html>
